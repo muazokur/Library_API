@@ -18,9 +18,9 @@ public static class PersistenceServiceRegistration
         services.AddDbContext<BaseDbContext>((serviceProvider, options) =>
         {
             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-            var connectionString = configuration.GetSection("SeriLogConfigurations:MsSqlConfiguration:ConnectionString").Value;
+            var connectionString = configuration.GetConnectionString("BaseDb");
 
-            options.UseSqlServer(connectionString);
+            options.UseSqlServer("Server=DESKTOP-G2OFTQJ;Database=LibraryDB;Trusted_Connection=True;TrustServerCertificate=True;");
         });
 
         services.AddScoped<IEmailAuthenticatorRepository, EmailAuthenticatorRepository>();
