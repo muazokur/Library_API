@@ -27,6 +27,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(u => u.EmailAuthenticators);
         builder.HasMany(u => u.OtpAuthenticators);
 
+        builder.HasOne(u => u.Author)
+          .WithOne(a => a.User)
+          .HasForeignKey<Author>(a => a.UserId);
+
         builder.HasData(_seeds);
 
         builder.HasBaseType((string)null!);
@@ -38,7 +42,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         get
         {
             HashingHelper.CreatePasswordHash(
-                password: "Passw0rd!",
+                password: "LL123456.",
                 passwordHash: out byte[] passwordHash,
                 passwordSalt: out byte[] passwordSalt
             );
@@ -46,7 +50,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 new()
                 {
                     Id = AdminId,
-                    Email = "narch@kodlama.io",
+                    Email = "mmo@hotmail.com",
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt
                 };

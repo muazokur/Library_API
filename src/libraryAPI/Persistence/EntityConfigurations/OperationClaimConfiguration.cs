@@ -6,6 +6,8 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NArchitecture.Core.Security.Constants;
+using Application.Features.Authors.Constants;
+using Application.Features.Books.Constants;
 
 namespace Persistence.EntityConfigurations;
 
@@ -97,6 +99,34 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         );
         #endregion
 
+        
+        #region Authors CRUD
+        featureOperationClaims.AddRange(
+            [
+                new() { Id = ++lastId, Name = AuthorsOperationClaims.Admin },
+                new() { Id = ++lastId, Name = AuthorsOperationClaims.Read },
+                new() { Id = ++lastId, Name = AuthorsOperationClaims.Write },
+                new() { Id = ++lastId, Name = AuthorsOperationClaims.Create },
+                new() { Id = ++lastId, Name = AuthorsOperationClaims.Update },
+                new() { Id = ++lastId, Name = AuthorsOperationClaims.Delete },
+            ]
+        );
+        #endregion
+        
+        
+        #region Books CRUD
+        featureOperationClaims.AddRange(
+            [
+                new() { Id = ++lastId, Name = BooksOperationClaims.Admin },
+                new() { Id = ++lastId, Name = BooksOperationClaims.Read },
+                new() { Id = ++lastId, Name = BooksOperationClaims.Write },
+                new() { Id = ++lastId, Name = BooksOperationClaims.Create },
+                new() { Id = ++lastId, Name = BooksOperationClaims.Update },
+                new() { Id = ++lastId, Name = BooksOperationClaims.Delete },
+            ]
+        );
+        #endregion
+        
         return featureOperationClaims;
     }
 #pragma warning restore S1854 // Unused assignments should be removed
