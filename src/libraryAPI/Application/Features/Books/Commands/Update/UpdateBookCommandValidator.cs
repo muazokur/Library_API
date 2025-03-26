@@ -8,7 +8,6 @@ public class UpdateBookCommandValidator : AbstractValidator<UpdateBookCommand>
     {
         RuleFor(c => c.Id).NotEmpty();
         RuleFor(c => c.Title).NotEmpty();
-        RuleFor(c => c.AuthorId).NotEmpty();
         RuleFor(c => c.PublishedDate).NotEmpty();
     }
 }

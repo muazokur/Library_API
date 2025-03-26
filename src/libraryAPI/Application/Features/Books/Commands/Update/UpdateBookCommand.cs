@@ -13,7 +13,6 @@ public class UpdateBookCommand : IRequest<UpdatedBookResponse>, ISecuredRequest
 {
     public Guid Id { get; set; }
     public required string Title { get; set; }
-    public required Guid AuthorId { get; set; }
     public required DateTime PublishedDate { get; set; }
 
     public string[] Roles => [Admin, Write, BooksOperationClaims.Update];
@@ -40,6 +39,7 @@ public class UpdateBookCommand : IRequest<UpdatedBookResponse>, ISecuredRequest
                 throw new NullReferenceException();
 
             await _bookBusinessRules.CheckAuthorToOwn(book.AuthorId);
+            book = await _bookBusinessRules.AddAuthorIdToBook(book);
 
             await _bookBusinessRules.BookShouldExistWhenSelected(book);
             book = _mapper.Map(request, book);

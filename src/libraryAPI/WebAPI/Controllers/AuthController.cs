@@ -38,7 +38,7 @@ public class AuthController : BaseController
 
         return Ok(result.ToHttpResponse());
     }
-
+    [NonAction]
     [HttpPost("Register")]
     public async Task<IActionResult> Register([FromBody] UserForRegisterDto userForRegisterDto)
     {
@@ -47,7 +47,7 @@ public class AuthController : BaseController
         setRefreshTokenToCookie(result.RefreshToken);
         return Created(uri: "", result.AccessToken);
     }
-
+    [NonAction]
     [HttpGet("RefreshToken")]
     public async Task<IActionResult> RefreshToken()
     {
@@ -57,7 +57,7 @@ public class AuthController : BaseController
         setRefreshTokenToCookie(result.RefreshToken);
         return Created(uri: "", result.AccessToken);
     }
-
+    [NonAction]
     [HttpPut("RevokeToken")]
     public async Task<IActionResult> RevokeToken([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Allow)] string? refreshToken)
     {
@@ -66,7 +66,7 @@ public class AuthController : BaseController
         RevokedTokenResponse result = await Mediator.Send(revokeTokenCommand);
         return Ok(result);
     }
-
+    [NonAction]
     [HttpGet("EnableEmailAuthenticator")]
     public async Task<IActionResult> EnableEmailAuthenticator()
     {
@@ -80,7 +80,7 @@ public class AuthController : BaseController
 
         return Ok();
     }
-
+    [NonAction]
     [HttpGet("EnableOtpAuthenticator")]
     public async Task<IActionResult> EnableOtpAuthenticator()
     {
@@ -89,7 +89,7 @@ public class AuthController : BaseController
 
         return Ok(result);
     }
-
+    [NonAction]
     [HttpGet("VerifyEmailAuthenticator")]
     public async Task<IActionResult> VerifyEmailAuthenticator(
         [FromQuery] VerifyEmailAuthenticatorCommand verifyEmailAuthenticatorCommand
@@ -98,7 +98,7 @@ public class AuthController : BaseController
         await Mediator.Send(verifyEmailAuthenticatorCommand);
         return Ok();
     }
-
+    [NonAction]
     [HttpPost("VerifyOtpAuthenticator")]
     public async Task<IActionResult> VerifyOtpAuthenticator([FromBody] string authenticatorCode)
     {

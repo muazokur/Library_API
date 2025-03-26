@@ -8,7 +8,7 @@ using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
 
 namespace WebAPI.Controllers;
-
+[NonController]
 [Route("api/[controller]")]
 [ApiController]
 public class UserOperationClaimsController : BaseController
