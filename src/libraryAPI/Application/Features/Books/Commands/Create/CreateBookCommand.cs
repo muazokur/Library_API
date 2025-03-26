@@ -12,7 +12,6 @@ namespace Application.Features.Books.Commands.Create;
 public class CreateBookCommand : IRequest<CreatedBookResponse>, ISecuredRequest
 {
     public required string Title { get; set; }
-    public required Guid AuthorId { get; set; }
     public required DateTime PublishedDate { get; set; }
 
     public string[] Roles => [Admin, Write, BooksOperationClaims.Create];
@@ -34,7 +33,7 @@ public class CreateBookCommand : IRequest<CreatedBookResponse>, ISecuredRequest
         public async Task<CreatedBookResponse> Handle(CreateBookCommand request, CancellationToken cancellationToken)
         {
             Book book = _mapper.Map<Book>(request);
-
+            book = await _bookBusinessRules.AddAuthorIdToBook(book);
             await _bookRepository.AddAsync(book);
 
             CreatedBookResponse response = _mapper.Map<CreatedBookResponse>(book);

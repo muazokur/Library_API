@@ -11,11 +11,27 @@ public class AuthorBusinessRules : BaseBusinessRules
 {
     private readonly IAuthorRepository _authorRepository;
     private readonly ILocalizationService _localizationService;
+    private readonly IOperationClaimRepository _operationClaimRepository;
+    private readonly IUserOperationClaimRepository _userOperationClaimRepository;
 
-    public AuthorBusinessRules(IAuthorRepository authorRepository, ILocalizationService localizationService)
+    public AuthorBusinessRules(IAuthorRepository authorRepository, ILocalizationService localizationService, IOperationClaimRepository operationClaimRepository, IUserOperationClaimRepository userOperationClaimRepository)
     {
         _authorRepository = authorRepository;
         _localizationService = localizationService;
+        _operationClaimRepository = operationClaimRepository;
+        _userOperationClaimRepository = userOperationClaimRepository;
+    }
+    public async Task AddBookRoleToAuthor(Guid userId)
+    {
+        var operationClaimPagination = await _operationClaimRepository.GetListAsync(predicate: p => p.Name.StartsWith("Books."),index:0,size:100);
+
+        List<OperationClaim> operationClaims = operationClaimPagination.Items.ToList();
+
+        foreach (var claim in operationClaims)
+        {
+            UserOperationClaim userOperationClaim = new() { UserId = userId,OperationClaimId=claim.Id };
+            await _userOperationClaimRepository.AddAsync(userOperationClaim);
+        }
     }
 
     private async Task throwBusinessException(string messageKey)

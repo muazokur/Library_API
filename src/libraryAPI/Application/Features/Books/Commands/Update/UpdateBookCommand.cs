@@ -35,6 +35,12 @@ public class UpdateBookCommand : IRequest<UpdatedBookResponse>, ISecuredRequest
         public async Task<UpdatedBookResponse> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
         {
             Book? book = await _bookRepository.GetAsync(predicate: b => b.Id == request.Id, cancellationToken: cancellationToken);
+
+            if (book == null)
+                throw new NullReferenceException();
+
+            await _bookBusinessRules.CheckAuthorToOwn(book.AuthorId);
+
             await _bookBusinessRules.BookShouldExistWhenSelected(book);
             book = _mapper.Map(request, book);
 

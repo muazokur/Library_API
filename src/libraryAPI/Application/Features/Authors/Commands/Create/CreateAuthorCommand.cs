@@ -35,7 +35,7 @@ public class CreateAuthorCommand : IRequest<CreatedAuthorResponse>, ISecuredRequ
             Author author = _mapper.Map<Author>(request);
 
             await _authorRepository.AddAsync(author);
-
+            await _authorBusinessRules.AddBookRoleToAuthor(request.UserId);
             CreatedAuthorResponse response = _mapper.Map<CreatedAuthorResponse>(author);
             return response;
         }

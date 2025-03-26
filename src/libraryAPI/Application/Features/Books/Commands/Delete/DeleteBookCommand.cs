@@ -33,6 +33,12 @@ public class DeleteBookCommand : IRequest<DeletedBookResponse>, ISecuredRequest
         public async Task<DeletedBookResponse> Handle(DeleteBookCommand request, CancellationToken cancellationToken)
         {
             Book? book = await _bookRepository.GetAsync(predicate: b => b.Id == request.Id, cancellationToken: cancellationToken);
+
+            if (book == null)
+                throw new NullReferenceException();
+
+            await _bookBusinessRules.CheckAuthorToOwn(book.AuthorId);
+
             await _bookBusinessRules.BookShouldExistWhenSelected(book);
 
             await _bookRepository.DeleteAsync(book!);

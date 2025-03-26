@@ -22,6 +22,7 @@ using NArchitecture.Core.Security.DependencyInjection;
 using NArchitecture.Core.Security.JWT;
 using Application.Services.Authors;
 using Application.Services.Books;
+using Application.Services.UserContextService;
 
 namespace Application;
 
@@ -65,6 +66,7 @@ public static class ApplicationServiceRegistration
 
         services.AddScoped<IAuthorService, AuthorManager>();
         services.AddScoped<IBookService, BookManager>();
+        services.AddScoped<IUserContextService, UserContextService>();
         return services;
     }
 

@@ -7,7 +7,6 @@ public class CreateBookCommandValidator : AbstractValidator<CreateBookCommand>
     public CreateBookCommandValidator()
     {
         RuleFor(c => c.Title).NotEmpty();
-        RuleFor(c => c.AuthorId).NotEmpty();
         RuleFor(c => c.PublishedDate).NotEmpty();
     }
 }
